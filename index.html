@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Discord Ad Formatter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            color: #444;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        textarea,
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #output {
+            white-space: pre-wrap;
+            background-color: #e8e8e8;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .footer-note {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .credits-footer {
+            margin-top: 50px;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+            font-size: 14px;
+            color: #777;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>DevCove Marketplace Ad Formatter</h1>
+
+    <label for="adType">Ad Type:</label>
+    <select id="adType">
+        <option value="selling">Selling</option>
+        <option value="forhire">For Hire</option>
+        <option value="hiring">Hiring</option>
+    </select>
+
+    <label for="userId">User ID (for @ mention):</label>
+    <input type="text" id="userId" placeholder="e.g., 123456789012345678">
+
+    <label for="adContent">Ad Content:</label>
+    <textarea id="adContent" rows="6" placeholder="Write the ad details here..."></textarea>
+
+    <button onclick="generateAd()">Generate Formatted Ad</button>
+
+    <label for="output">Formatted Discord Ad:</label>
+    <textarea id="output" rows="10" readonly></textarea>
+
+    <div id="footer-note-msg" class="footer-note"></div>
+
+    <footer class="credits-footer">
+        Made for <strong>DevCove</strong> • Made by <strong>georgi170109</strong>
+    </footer>
+
+
+    <script>
+        // Hardcoded Role IDs per ad type
+        const roleMap = {
+            selling: "1279283755273556050",   // Replace with your actual Selling role ID
+            forhire: "1279283624931364929",  // Replace with your actual For Hire role ID
+            hiring: "1279283703717302363"    // Replace with your actual Hiring role ID
+        };
+
+        function generateAd() {
+            const adType = document.getElementById("adType").value;
+            const userId = document.getElementById("userId").value.trim();
+            const content = document.getElementById("adContent").value.trim();
+
+            if (!userId || !content) {
+                alert("Please fill in both the User ID and Ad Content.");
+                return;
+            }
+
+            const roleId = roleMap[adType];
+            const warning = "**⚠️ PLEASE MESSAGE THE AD OWNER, STAFF WILL NOT RESPOND ⚠️**";
+            const mentionUser = `<@${userId}>`;
+            const mentionRole = `<@&${roleId}>`;
+
+            const finalMessage = `${warning}\n\n${content}\n\n**AD OWNER: ${mentionUser} **\n\n${warning}\n${mentionRole}`;
+
+            const footNoteMessage = `Copy and paste this into the ${adType} channel.`
+
+            document.getElementById("footer-note-msg").textContent = footNoteMessage;
+            document.getElementById("output").value = finalMessage;
+        }
+    </script>
+
+</body>
+
+</html>
